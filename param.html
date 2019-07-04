@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+ <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=9" lang="ru">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <style>
+            html { overflow:  hidden; } 
+    </style>
+
+  <title>Событие onclick</title>
+
+ </head> 
+ <body>
+
+        <script type="text/javascript">
+            var externalForm;
+            var idMenuClick;
+            var strJSONMenu; 
+      
+            function getStructMenu()
+            {
+                strJSONMenu = externalForm.ПолучитьСписокПродуктов();
+                var obj = JSON.parse(strJSONMenu);
+
+                var list = '';
+                for (var i in obj) {
+                    list += '<li>' + obj[i].id + ': ' + obj[i].name + ' - ' + obj[i].idParent + ' </li>';
+                  }
+              document.getElementById('div').innerHTML += '<ul>' + list + '</ul>';
+            }
+      
+            function sendIdOnClick()
+            {
+                var idMenu = document.getElementById("idMenu").value;
+                externalForm.ВыбранаПродукция(idMenu);
+            }
+      
+        </script>
+
+     <p><input type="button" value="Получить список" onclick="getStructMenu()"></p>
+     <form>
+        <p>
+            <input type="text" id="idMenu">
+        </p>
+        <p> 
+            <input type="button" value="Сообщить о нажатии" onclick="sendIdOnClick()">
+        </p>
+        <div id="div">
+
+        </div>
+    </form>
+ </body>
+</html>
