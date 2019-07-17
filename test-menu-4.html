@@ -1,0 +1,195 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=9" lang="ru">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+        html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .menu {
+            width: 100%;
+            background: #666;
+            display: table;
+        }
+        
+        .menu li {
+            display: block;
+            float: left;
+            position: relative;
+        }
+        
+        .menu li a {
+            display: table;
+            padding: 0 20px;
+            height: 50px;
+            text-align: left;
+            font-family: sans-serif;
+            line-height: 49px;
+            color: #fff;
+            border-right: 1px solid #555;
+            text-decoration: none;
+        }
+        
+        .sub-menu {
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            z-index: -1;
+        }
+        
+        .menu .sub-menu li {
+            float: none;
+        }
+        
+        .menu .sub-menu li a {
+            width: 100%;
+            min-width: 100%;
+            white-space: nowrap;
+            text-align: left;
+            box-shadow: none;
+            border: none;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .menu li:hover a {
+            background: #aaa;
+            box-shadow: 0 0 5px rgba(0, 0, 0, .3) insert;
+        }
+        
+        .menu li:hover .sub-menu a {
+            background: #eee;
+            color: #666;
+            height: 40px;
+            line-height: 40px;
+        }
+        
+        .menu li:hover .sub-menu a:hover {
+            color: #000;
+        }
+        
+        .menu li a:hover+.sub-menu,
+        .sub-menu:hover {
+            display: block;
+        }
+        
+        .menu li:hover>ul {
+            visibility: visible;
+            opacity: 1;
+            z-index: 1;
+        }
+        
+        @media screen and (max-width: 580px) {
+            .sub-menu {
+                position: relative;
+                display: none;
+            }
+            .menu li,
+            .menu li a {
+                width: 100%;
+                border: none;
+                padding-right: 0;
+            }
+            .menu li {
+                border-bottom: 1px solid #555;
+            }
+            .sub-menu li {
+                border-bottom: 1px solid #ddd;
+            }
+            .menu {
+                width: 100%;
+                overflow: hidden;
+            }
+        }
+        
+        .button {
+            text-decoration: none;
+            outline: none;
+            display: inline-block;
+            color: #666;
+            padding: 20px 30px;
+            margin: 10px 20px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background-size: 200% auto;
+            box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+        }
+    </style>
+
+    <title>Тест-меню IE9</title>
+</head>
+
+<body>
+
+
+    <!-- Пример как должно выглядеть меню     -->
+
+    <ul class="menu"><li>
+                <a href="#">ОКНА ПВХ</a>
+                <ul class="sub-menu"><li><a href="#">ОКНА</a></li>
+                    <li><a href="#">ОПЦИИ ОКНА</a></li>
+                    <li><a href="#">КОМПЛЕКТАЦИЯ ОКНА</a></li>
+                </ul></li><li><a href="#">ДВЕРИ ПВХ</a></li>
+            
+            <li>
+                <a href="#">СТЕКЛОИЗДЕЛИЯ</a>
+                <ul class="sub-menu"><li><a href="#">ДВЕРИ</a></li>
+                    <li><a href="#">ДУШЕВЫЕ</a></li>
+                    <li><a href="#">ПЕРЕГОРОДКИ</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">ИЗДЕЛИЯ ИЗ КАМНЯ ИСКУСТВЕННОГО</a>
+                <ul class="sub-menu"><li><a href="#">ДУШЕВЫЕ ПОДДОНЫ</a></li>
+                    <li><a href="#">ПОДОКОННИКИ</a></li>
+                </ul></li>
+    
+            <li><a href="#">ТЕПЛИЦЫ</a></li>
+            <li><a href="#">ТИПОВЫЕ КОНСТ-И  ИЗ АЛ</a></li>
+        </ul>
+        
+        <!-- Конец примера -->
+
+
+
+    <script type="text/javascript">
+        var externalForm;
+        var idMenuClick;
+        var strJSONMenu;
+
+        function getStructMenu() {
+            strJSONMenu = externalForm.ПолучитьСписокПродуктов();
+            var obj = JSON.parse(strJSONMenu);
+
+            var list = '';
+            for (var i in obj) {
+                list += '<li><a href="#">' + obj[i].id + ': ' + obj[i].name + '</a>' + '<li><a href="#">' + obj[i].idParent + obj[i].name + ' </a></li>' + '</li>';
+            }
+            
+            document.getElementById('div').innerHTML += '<ul class="menu">' + list + '</ul>';
+        }
+        
+        function sendIdOnClick() {
+            var idMenu = document.getElementById("idMenu").value;
+            externalForm.ВыбранаПродукция(idMenu);
+        }
+    </script>
+    <button class="button" type="button" value="Получить список" onclick="getStructMenu()">Показать список продуктов</button>    
+    <form>
+        <p>
+            <input type="text" id="idMenu">
+        </p>
+        <p>
+            <input type="button" value="Сообщить о нажатии" onclick="sendIdOnClick()">
+        </p>
+        <div id="div">
+
+        </div>
+    </form>
+    </body>
+    </html>
